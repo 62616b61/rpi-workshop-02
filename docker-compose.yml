@@ -1,0 +1,66 @@
+version: '2'
+services:
+
+  mongo:
+    mem_limit: 50m
+    image: mongo:latest
+    container_name: mongo
+    volumes:
+      - /srv/docker/mongodb:/data/db
+    ports:
+      - "27017:27017"
+    logging:
+      driver: "none"
+    restart: always
+
+  server:
+    tty: true
+    mem_limit: 1024m
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    depends_on:
+      - mongo
+    ports:
+      - "8080:3000"
+    command: yarn dev
+    env_file:
+      - ./server/.env
+
+  #client:
+  #  tty: true
+  #  mem_limit: 1024m
+  #  build:
+  #    context: ./client
+  #    dockerfile: Dockerfile.dev
+  #  volumes:
+  #    - ./client:/app
+  #    - /app/node_modules
+  #  ports:
+  #    - "3000:3000"
+  #  command: yarn dev
+
+  reader1:
+    tty: true
+    mem_limit: 250m
+    build:
+      context: ./reader
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./reader:/app
+      - /app/node_modules
+    command: yarn dev
+
+  reader2:
+    tty: true
+    mem_limit: 250m
+    build:
+      context: ./reader
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./reader:/app
+      - /app/node_modules
+    command: yarn dev
