@@ -1,0 +1,14 @@
+FROM node:alpine
+
+# create app directory in container and set to be default
+RUN mkdir -p /app
+WORKDIR /app
+
+ADD package.json yarn.lock /app/
+
+RUN yarn --pure-lockfile
+
+EXPOSE 3000
+
+# cmd to start service
+CMD ["yarn", "dev"]
