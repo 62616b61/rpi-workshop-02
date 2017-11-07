@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import RFIDRoute from './rfid.route'
+import CardsRoute from './cards.route'
 
 const router = new Router()
 
-router.use('/rfid', RFIDRoute)
+router.use('/cards', CardsRoute)
 
 export default router
