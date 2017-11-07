@@ -1,4 +1,5 @@
 import express from 'express'
+import applyMiddlewares from './config/middlewares'
 
 import './config/database'
 
@@ -6,6 +7,8 @@ import constants from './config/constants'
 import routes from './routes'
 
 const app = express()
+
+applyMiddlewares(app)
 
 app.use('/', routes)
 
